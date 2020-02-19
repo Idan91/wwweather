@@ -1,13 +1,571 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+:root {
+  --checkbox-size: 25px;
+  --main-orange: #f15a24;
+  --main-red: #c31c24;
+  --main-yellow: #f3b747;
+  --main-blue: #1b1464;
+  --bg-color: #faf9f6;
+  --gradient: linear-gradient(
+    90deg,
+    rgba(40, 30, 149, 1) 0%,
+    rgba(40, 30, 149, 1) 12.4999%,
+    rgba(0, 166, 219, 1) 12.5%,
+    rgba(0, 166, 219, 1) 24.999%,
+    rgba(216, 47, 13, 1) 25%,
+    rgba(216, 47, 13, 1) 37.4999%,
+    rgba(236, 62, 25, 1) 37.5%,
+    rgba(236, 62, 25, 1) 49.9999%,
+    rgba(239, 154, 58, 1) 50%,
+    rgba(239, 154, 58, 1) 62.4999%,
+    rgba(247, 137, 55, 1) 62.5%,
+    rgba(247, 137, 55, 1) 74.9999%,
+    rgba(217, 40, 52, 1) 75%,
+    rgba(217, 40, 52, 1) 87.4999%,
+    rgba(165, 0, 0, 1) 87.5%,
+    rgba(165, 0, 0, 1) 100%
+  );
+}
+
+#root {
+  font-family: "Roboto";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+}
+
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.grid {
+  display: grid;
+}
+
+.grid > div {
+  padding: 1em;
+  /* background-color: grey; */
+}
+
+.grid-header {
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 15vh;
+  margin-bottom: 25px;
+}
+
+.grid-locations {
+  position: relative;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 10vh;
+  width: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.grid-locations > div {
+  padding: 2em;
+  text-align: center;
+}
+
+.grid-temp-type {
+  grid-template-columns: 3fr 1fr 1fr 3fr;
+  height: 8vh;
+}
+
+.grid-temp-type > div {
+  text-align: center;
+}
+
+.logo-container {
+  text-align: center;
+}
+
+.logo {
+  position: relative;
+  width: 450px;
+  top: 45%;
+  transform: translateY(-50%);
+}
+
+.location {
+  position: relative;
+  left: 0%;
+}
+
+.location-checkbox {
+  opacity: 0;
+  z-index: 2;
+  height: var(--checkbox-size);
+  width: var(--checkbox-size);
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.checkbox-box {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translateY(-50%);
+  background-color: var(--main-blue);
+  height: var(--checkbox-size);
+  width: var(--checkbox-size);
+  color: white;
+  text-align: center;
+  vertical-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkbox-content {
+  opacity: 0;
+  z-index: 2;
+  position: relative;
+  top: 0%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.checkbox-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: 14px;
+  width: 100px;
+  text-align: left;
+  margin-left: 8px;
+}
+
+.location-checkbox:checked ~ .checkbox-box .checkbox-content {
+  opacity: 1;
+  top: 50%;
+}
+
+.location-checkbox:checked ~ .checkbox-box {
+  background-color: var(--main-orange);
+}
+
+.location-checkbox:hover ~ .checkbox-box {
+  background-color: var(--main-yellow);
+}
+
+.temp-type-container {
+  position: relative;
+  width: 100%;
+  height: 7vh;
+  text-align: center;
+  justify-content: center;
+  margin-top: -20px;
+  margin-bottom: 12px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.temp {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  margin: 2px 0px 2px 0px;
+}
+
+.temp-type-container > .temp:nth-child(odd) .temp-label {
+  border-radius: 5px 0px 0px 5px;
+}
+
+.temp-type-container > .temp:nth-child(even) .temp-label {
+  border-radius: 0px 5px 5px 0px;
+}
+
+.temp-label {
+  text-transform: capitalize;
+  display: block;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: var(--main-blue);
+  width: 120px;
+  padding: 0.4em 0.7em;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.temp-label:hover {
+  background-color: var(--main-yellow);
+}
+
+input[type="radio"]:checked + .temp-label {
+  background-color: var(--main-orange);
+}
+
+.display-weather {
+  position: relative;
+  width: 100%;
+  height: 6vh;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.display-weather button,
+.display-weather button:focus {
+  outline: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--main-red);
+  color: white;
+  border-radius: 5px;
+  font-size: 22px;
+  font-weight: bolder;
+  padding: 0.35em 0.65em;
+  cursor: pointer;
+  text-decoration: none;
+  border-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.display-weather button:hover {
+  background-color: var(--main-yellow);
+}
+
+.card-container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 93%;
+  height: 50vh;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  overflow: visible;
+}
+
+.card-break {
+  flex-basis: 100%;
+  height: 0px;
+}
+
+.card {
+  flex: 1 1 auto;
+  display: inline;
+  position: sticky;
+  margin: 20px 10px;
+  min-width: 18%;
+  max-width: 50%;
+  min-height: 20vh;
+  justify-content: center;
+  background: #e9e5dd;
+  border: 1px solid #d8d3c8;
+  border-radius: 5px;
+}
+
+.card-single {
+  position: relative;
+  max-width: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card-multirow {
+  margin-top: 0px;
+  position: relative;
+  max-width: 18.5%;
+}
+
+.grid-card {
+  grid-template-rows: 1fr 2fr 1fr;
+  height: 100%;
+}
+
+.grid-card > div {
+  position: relative;
+  padding: 1px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.card-text > span {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px;
+}
+
+.card-text > div {
+  position: absolute;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px;
+}
+
+.location-title > span {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+  margin: 0px;
+  width: 95%;
+  overflow: visible;
+}
+
+.location-title-sml > span {
+  font-size: 18px;
+  margin: 0px;
+  width: 95%;
+  overflow: visible;
+}
+
+.location-temp > p {
+  position: relative;
+  font-size: 75px;
+  margin: 0px;
+}
+
+.location-temp-sml > p {
+  position: relative;
+  font-size: 55px;
+  margin: 0px;
+}
+
+#temp-max-min {
+  margin-top: 5px;
+  font-size: 16px;
+  width: 220px;
+}
+
+.selection-btn-container {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-selection,
+.btn-selection:focus {
+  margin-top: 15px;
+  outline: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--main-red);
+  color: white;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bolder;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
+  text-decoration: none;
+  border-color: transparent;
+  transition: all 0.3s ease;
+  margin: 3px;
+  width: 125px;
+  text-transform: uppercase;
+}
+
+.btn-selection:hover {
+  background-color: var(--main-yellow);
+}
+
+footer {
+  position: fixed;
+  bottom: 0%;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  height: 35px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  padding-top: 20px;
+  color: rgb(31, 31, 31);
+}
+
+.footer-border {
+  position: absolute;
+  top: 0%;
+  height: 1px;
+  width: 100%;
+  background: var(--gradient);
+}
+
+@media screen and (max-height: 650px) {
+  .card-container {
+    height: 47vh;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .temp-label {
+    font-size: 15px;
+    width: 100px;
+    padding: 0.4em 0.7em;
+    margin-top: 20px;
+  }
+
+  .display-weather button,
+  .display-weather button:focus {
+    font-size: 19px;
+    margin-top: 10px;
+  }
+
+  .location-title-sml > span {
+    font-size: 16px;
+  }
+
+  .location-temp-sml > p {
+    font-size: 50px;
+    margin: 0px;
+  }
+
+  #temp-max-min {
+    margin-top: 5px;
+    font-size: 14px;
+    width: 220px;
+  }
+
+  .checkbox-label {
+    font-size: 13px;
+    width: 90px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  :root {
+    --size-factor: 0.8;
+    --checkbox-size-m: calc(var(--checkbox-size) * var(--size-factor));
+  }
+
+  .location-checkbox {
+    height: var(--checkbox-size-m);
+    width: var(--checkbox-size-m);
+  }
+
+  .checkbox-box {
+    height: var(--checkbox-size-m);
+    width: var(--checkbox-size-m);
+  }
+
+  .checkbox-content {
+    transform: scale(var(--size-factor))
+      translateY(calc(-80% * var(--size-factor)));
+  }
+
+  .checkbox-label {
+    font-size: 12px;
+    width: 75px;
+    margin-left: 4px;
+  }
+
+  .card {
+    margin: 20px 16px;
+    /* min-width: 18%; */
+    min-width: 16%;
+    max-width: 50%;
+    min-height: 20vh;
+  }
+
+  .card-multirow {
+    margin-top: 0px;
+    position: relative;
+    max-width: 16.5%;
+  }
+
+  .location-temp > p {
+    font-size: 60px;
+    margin: 0px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  :root {
+    --size-factor: 0.65;
+    --checkbox-size-m: calc(var(--checkbox-size) * var(--size-factor));
+  }
+
+  .location-checkbox {
+    height: var(--checkbox-size-m);
+    width: var(--checkbox-size-m);
+  }
+
+  .checkbox-box {
+    height: var(--checkbox-size-m);
+    width: var(--checkbox-size-m);
+  }
+
+  .checkbox-label {
+    font-size: 11px;
+    width: 44px;
+    margin-left: 4px;
+  }
+
+  .checkbox-content {
+    transform: scale(var(--size-factor))
+      translateY(calc(-100% * var(--size-factor)));
+  }
+
+  .temp-label {
+    font-size: 14px;
+    width: 90px;
+    padding: 0.4em 0.7em;
+    margin-top: 20px;
+  }
+
+  .display-weather button,
+  .display-weather button:focus {
+    font-size: 17px;
+    margin-top: 5px;
+  }
+
+  .card {
+    margin: 20px 6px;
+    min-width: 18%;
+    max-width: 50%;
+    min-height: 20vh;
+  }
+
+  .card-multirow {
+    margin-top: 0px;
+    position: relative;
+    max-width: 17.5%;
+  }
+
+  .loaction-temp-description > span {
+    font-size: 15px;
+  }
+
+  .location-temp > p {
+    font-size: 50px;
+    letter-spacing: -0.6px;
+    margin: 0px;
+  }
+
+  .location-title > span {
+    font-size: 20px;
+  }
+
+  #temp-max-min {
+    font-size: 13px;
+  }
 }

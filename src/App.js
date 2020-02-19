@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import WWWEATHER from "./components/WWWEATHER";
 
 class App extends Component {
-  state = {};
   render() {
-    return <h1>wwweather</h1>;
+    return <WWWEATHER />;
   }
 }
 
